@@ -1,0 +1,11 @@
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.PowerShell.dll
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.PowerShell.pdb
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.dll
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\System.Management.Automation.dll
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.pdb
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.xml
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\obj\Debug\Microsoft.Dism.PowerShell.csproj.AssemblyReference.cache
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\obj\Debug\Microsoft.Dism.PowerShell.csproj.CoreCompileInputs.cache
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\obj\Debug\Microsoft.Dism.PowerShell.csproj.CopyComplete
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\obj\Debug\Microsoft.Dism.PowerShell.dll
+C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\obj\Debug\Microsoft.Dism.PowerShell.pdb
