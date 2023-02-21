@@ -347,7 +347,7 @@ namespace Microsoft.Dism.PowerShell
             catch (Exception ex)
             {
                 instance.ThrowTerminatingError(new ErrorRecord(new System.Exception(),
-                    "DismException", ErrorCategory.NotSpecified, ex.Message));
+                    "DismException", ErrorCategory.NotSpecified, ex));
             }
         }
 

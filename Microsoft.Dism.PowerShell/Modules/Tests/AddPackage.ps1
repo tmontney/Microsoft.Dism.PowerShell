@@ -7,6 +7,10 @@ $IMAGE_FILE_PATH = "C:\Dism\Winre.wim"
 $MOUNT_PATH = "C:\Dism\mount"
 $PACKAGE_PATH = "C:\Dism\windows10.0-kb5021040-x64_2216fe185502d04d7a420a115a53613db35c0af9.cab"
 
+# There may be a delay in seeing the callback. This is likely due to...
+#   * Large package size (extracting)
+#   * Updating the Service Stack
+# Current/Total may appear to reset which could be due to nested packages
 function New-DismProgressCallback {
     [Microsoft.Dism.DismProgressCallback]$progressCallback = {
         param (
