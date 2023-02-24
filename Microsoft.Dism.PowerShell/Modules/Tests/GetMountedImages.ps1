@@ -1,4 +1,4 @@
-Import-Module "C:\ACC\Dev\Visual Studio\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell\bin\Debug\Microsoft.Dism.PowerShell.dll"
+Import-Module "..\Microsoft.Dism.PowerShell\Microsoft.Dism.PowerShell.psd1"
 
 #$IMAGE_FILE_PATH = "$PSScriptRoot\Winre.wim"
 #$MOUNT_PATH = "$PSScriptRoot\mount"
@@ -33,7 +33,7 @@ try {
     Get-PSDismMountedImages
 }
 finally {
-    if ($Session) { Close-PSDismSession -Session $Session }
+    if (-not $Session.IsClosed) { Close-PSDismSession -Session $Session }
     Dismount-PSDismImage -MountPath $MOUNT_PATH -CommitChanges:$false -ProgressCallback ((New-DismProgressCallback)) -UserData "Dismounting Image"
     Remove-PSDism
 }

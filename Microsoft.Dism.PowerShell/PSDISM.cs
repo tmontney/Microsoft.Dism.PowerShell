@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Deployment.Compression.Cab;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Management.Automation;
 
@@ -74,6 +76,8 @@ namespace Microsoft.Dism.PowerShell
         {
             DismRunner.Invoke(this,
                 () => DismApi.CloseSession(Session));
+            // Changes .IsClosed to True
+            Session.Close();
         }
     }
 
@@ -256,6 +260,82 @@ namespace Microsoft.Dism.PowerShell
             }
 
             WriteObject(packageInfo);
+        }
+    }
+
+    [Cmdlet((VerbsCommon.Find), "PSDismPackage")]
+    public class FindPSDismPackageCommand : Cmdlet
+    {
+        [Parameter(Mandatory = true)]
+        public DismSession Session;
+        [Parameter(Mandatory = true)]
+        public string PackagePath;
+
+        protected override void BeginProcessing()
+        {
+            DismRunner.ThrowOnInvalidSession(this, Session);
+            DismRunner.ThrowOnInvalidPackagePath(this, PackagePath);
+        }
+
+        protected override void ProcessRecord()
+        {
+            DismPackageCollection packages = DismRunner.Invoke(this,
+                () => DismApi.GetPackages(Session));
+            if (System.IO.Path.GetExtension(PackagePath) == ".cab")
+            {
+                DismPackageInfo packageInfo = DismRunner.Invoke(this,
+                    () => DismApi.GetPackageInfoByPath(Session, PackagePath));
+                if (packages.Where(x => x.PackageName == packageInfo.PackageName).Count() == 0) { WriteObject(new List<DismPackageInfo>() { packageInfo}); }
+            }
+            else
+            {
+                string tempDir = Environment.GetEnvironmentVariable("TEMP") + "\\Microsoft.Dism.PowerShell\\" +
+                    System.IO.Path.GetFileNameWithoutExtension(System.IO.Path.GetRandomFileName());
+                if (!System.IO.Directory.Exists(tempDir)) { System.IO.Directory.CreateDirectory(tempDir); }
+                CabInfo cab = new CabInfo(PackagePath);
+                cab.Unpack(tempDir);
+                System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(tempDir);
+
+                List<DismPackageInfo> matchedPackages = new List<DismPackageInfo>();
+                foreach (System.IO.FileInfo fi in di.GetFiles("*.cab", System.IO.SearchOption.TopDirectoryOnly))
+                {
+                    
+                    try
+                    {
+                        DismPackageInfo pkgInfo = DismApi.GetPackageInfoByPath(Session, fi.FullName);
+                        if(pkgInfo.PackageState == DismPackageFeatureState.Installed) { matchedPackages.Add(pkgInfo); }
+                    }
+                    catch (Exception)
+                    {
+                        // Do nothing
+                    }
+                }
+
+                if(matchedPackages.Count > 0) { WriteObject(matchedPackages); }
+            }
+        }
+
+        protected override void StopProcessing()
+        {
+            deleteTempFolders();
+        }
+
+        protected override void EndProcessing()
+        {
+            deleteTempFolders();
+        }
+
+        private void deleteTempFolders()
+        {
+            string tempDir = Environment.GetEnvironmentVariable("TEMP") + "\\Microsoft.Dism.PowerShell\\";
+            System.IO.DirectoryInfo di = new System.IO.DirectoryInfo(tempDir);
+            if (di.Exists)
+            {
+                foreach (var dir in di.EnumerateDirectories())
+                {
+                    if (dir.Exists) { dir.Delete(true); }
+                }
+            }
         }
     }
 
